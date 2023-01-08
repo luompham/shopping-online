@@ -4,6 +4,9 @@ const port = 3000;
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const path = require('path');
+const route = require('./routes');
+const db = require('./config/db');
+
 
 //import { engine } from 'express-handlebars';
 
@@ -14,18 +17,16 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.engine('.hbs', engine({ extname: '.hbs' }));
-//app.engine('handlebars', engine());
 app.set('view engine', '.hbs');
 app.set('views', './src/resources/views');
 
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
+//route init
+route(app);
 
-app.get('/search', (req, res) => {
-    res.render('search');
-});
+//connect to database
+db.connect();
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);
