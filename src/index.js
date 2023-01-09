@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const path = require('path');
@@ -27,7 +27,7 @@ route(app);
 //connect to database
 db.connect();
 
-app.listen(process.env.PORT || 3000, () => {
+app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
 
