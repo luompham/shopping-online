@@ -32,6 +32,23 @@ class SiteController {
 
     };
 
+
+    //[GET]/create
+    create(req, res) {
+        res.render('create');
+    };
+
+    //[POST]/create
+    store(req, res, next) {
+        console.log(req.body)
+        const product = new ProductsModel(req.body)
+        product.save()
+            .then(() => {
+                res.redirect('/');
+            })
+            .catch(next);
+    };
+
 };
 
 module.exports = new SiteController;

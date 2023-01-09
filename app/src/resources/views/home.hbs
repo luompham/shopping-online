@@ -1,19 +1,19 @@
-<div class="container">
+<div class="container mt-4">
 
-    <div class="mt-4">
-        {{#each products}}
 
-        <div class="card" style="width: 18rem;">
-            <a href="/{{this._id}}">
-                <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
-            </a>
-            <div class="card-body">
-                <h5 class="card-title">{{this.price}}</h5>
-                <p class="card-text">{{this.name}}</p>
-                <a href="#" class="btn btn-primary">Mua hàng</a>
-            </div>
+    {{#each products}}
+
+    <div class="card" style="width: 18rem;">
+        <a href="/{{this._id}}">
+            <img class="card-img-top" src="{{this.image}}" alt="Card image cap">
+        </a>
+        <div class="card-body">
+            <h5 class="card-title">{{this.price}}</h5>
+            <p class="card-text">{{this.name}}</p>
+            <a href="#" class="btn btn-primary">Mua hàng</a>
         </div>
-
-        {{/each}}
     </div>
+
+    {{/each}}
+
 </div>
