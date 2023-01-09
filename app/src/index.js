@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const path = require('path');
@@ -18,7 +18,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
-app.set('views', './src/resources/views');
+app.set('views', './app/src/resources/views');
 
 
 //route init
