@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const ProductsModel = require('./models/products')
+const ProductsModel = require('../models/products');
 
 class SiteController {
     //[GET]/
