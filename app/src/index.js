@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
-const port = process.env.PORT || 5000;
-const morgan = require('morgan');
+const PORT = process.env.PORT || 5000;
+//const morgan = require('morgan');
 const { engine } = require('express-handlebars');
 const path = require('path');
 const route = require('./routes');
@@ -27,10 +27,7 @@ route(app);
 //connect to database
 db.connect();
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`);
 });
 
-// app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`);
-// });
