@@ -19,12 +19,12 @@ class SiteController {
         res.render('search');
     };
 
-    //[GET]/:slug
+    //[GET]/:id
     show(req, res) {
         let id = req.params.id;
         ProductsModel.findOne({ _id: id }).lean()
             .then((products) => {
-                res.render('products', { products });
+                res.render('buy-products', { products });
             })
             .catch((err) => {
                 res.status(500).send(err)

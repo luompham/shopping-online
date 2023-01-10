@@ -5,7 +5,7 @@
   "main": "app/src/index.js",
   "scripts": {
     "start": "nodemon --no-deprecation --inspect app/src/index.js",
-    "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
+    "watch": "node-sass --watch app/src/resources/scss/ --output app/src/public/css/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
