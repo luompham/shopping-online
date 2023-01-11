@@ -21,6 +21,38 @@ class ProductsController {
             })
             .catch(next);
     };
+
+    //[DELETE]/products/:id
+    destroy(req, res, next) {
+        let id = req.params.id;
+        ProductsModel.delete({ _id: id }).lean()
+            .then(() => {
+                res.redirect('back')
+            })
+            .catch(next);
+    };
+
+    //[DELETE]/products/:id/force
+    forceDestroy(req, res, next) {
+        let id = req.params.id;
+        ProductsModel.deleteOne({ _id: id }).lean()
+            .then(() => {
+                res.redirect('back')
+            })
+            .catch(next);
+    };
+
+    //[PATCH]/products/:id/restore
+    restore(req, res, next) {
+        let id = req.params.id;
+        ProductsModel.restore({ _id: id }).lean()
+            .then(() => {
+                res.redirect('back')
+            })
+            .catch(next);
+    }
+
+
 };
 
 module.exports = new ProductsController;

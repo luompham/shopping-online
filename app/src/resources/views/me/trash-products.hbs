@@ -1,7 +1,7 @@
 <div class="container mt-4">
     <div>
-        <h3>Sản phẩm của tôi</h3>
-        <a href="/me/trash/products">Thùng rác</a>
+        <h3>Sản phẩm đã xóa</h3>
+        <a href="/me/products">Sản phẩm của tôi</a>
     </div>
     <table class="table">
         <thead>
@@ -9,7 +9,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Tên sản phẩm</th>
                 <th scope="col">Giá</th>
-                <th scope="col" colspan="2">Thời gian tạo</th>
+                <th scope="col" colspan="2">Thời gian đã xóa</th>
             </tr>
         </thead>
         <tbody>
@@ -18,19 +18,19 @@
                 <th scope="row">{{sum @index 1}}</th>
                 <td>{{this.name}}</td>
                 <td>{{this.price}}</td>
-                <td>{{this.createdAt}}</td>
+                <td>{{this.deletedAt}}</td>
                 <td>
-                    <a href="/products/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+                    <a href="" class=" btn btn-link btn-restore" data-id="{{this._id}}">Khôi phục</a>
                     <!-- Button trigger modal -->
                     <a href="" class="btn btn-link" data-toggle="modal" data-target="#deleteProductModal"
-                        data-id="{{this._id}}">Xóa</a>
+                        data-id="{{this._id}}">Xóa vĩnh viễn</a>
                 </td>
             </tr>
             {{else}}
             <tr>
                 <td colspan="5" class="text-center">
-                    Bạn chưa đăng sản phẩm nào.
-                    <a href="/products/create">Đăng sản phẩm</a>
+                    Thùng rác trống.
+                    <a href="/me/products">Danh sách sản phẩm</a>
                 </td>
             </tr>
             {{/each}}
@@ -65,6 +65,7 @@
 
 {{!-- Hidden delete form --}}
 <form name="delete-product-form" method="post"></form>
+<form name="restore-product-form" method="post"></form>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -72,6 +73,9 @@
         let productId;
         let deleteProductBtn = document.getElementById('btn-delete-product');
         let deleteProductForm = document.forms['delete-product-form'];
+        let restoreBtn = $('.btn-restore');
+        let restoreForm = document.forms['restore-product-form'];
+
 
         //when the confirm dialog is clicked
         $('#deleteProductModal').on('show.bs.modal', function (event) {
@@ -79,12 +83,20 @@
             productId = button.data('id');
         });
 
-
         // when the delete product button is clicked
         deleteProductBtn.onclick = function () {
-            deleteProductForm.action = '/products/' + productId + '?_method=DELETE';
+            deleteProductForm.action = '/products/' + productId + '/force?_method=DELETE';
             deleteProductForm.submit();
         }
+
+        //Restore button is clicked
+        restoreBtn.click(function (e) {
+            e.preventDefault();
+            let productId = $(this).data('id');
+            restoreForm.action = '/products/' + productId + '/restore?_method=PATCH';
+            restoreForm.submit();
+        });
+
 
     })
 </script>

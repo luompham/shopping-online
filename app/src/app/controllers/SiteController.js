@@ -44,7 +44,7 @@ class SiteController {
         const product = new ProductsModel(req.body)
         product.save()
             .then(() => {
-                res.redirect('/');
+                res.redirect('/me/products');
             })
             .catch(next);
     };
