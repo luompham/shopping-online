@@ -12,7 +12,9 @@ router.put('/:id', productsController.update);
 router.delete('/:id/force', productsController.forceDestroy);
 router.delete('/:id', productsController.destroy);
 router.patch('/:id/restore', productsController.restore);
+router.post('/handle-form-actions', productsController.handleFormActions);
 router.get('/:id', productsController.show);
+
 
 module.exports = router;
 

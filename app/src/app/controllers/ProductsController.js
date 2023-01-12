@@ -80,6 +80,20 @@ class ProductsController {
             .catch(next);
     }
 
+    //[POST]/products//handle-form-actions
+    handleFormActions(req, res, next) {
+        let id = req.body.productIds;
+        switch (req.body.action) {
+            case 'delete':
+                ProductsModel.delete({ _id: id }).lean()
+                    .then(() => { res.redirect('back') })
+                    .catch(next);
+                break;
+            default:
+                res.json('Action is invalid');
+        };
+    }
+
 
 };
 

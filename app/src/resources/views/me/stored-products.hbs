@@ -1,57 +1,64 @@
-<div class="container mt-4">
+<form method="post" action="/products/handle-form-actions" name="container-form" class="container mt-4">
     <div>
         <h3>Danh sách sản phẩm ({{productsQty}})</h3>
         <a href="/me/trash/products">Thùng rác ({{deletedQty}})</a>
     </div>
-    <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Chọn tất cả</label>
-    </div>
-
-    <div class="form-group">
-        <label for="exampleFormControlSelect1">Example select</label>
-        <select class="form-control" id="exampleFormControlSelect1">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+    <div class="mt-4 form-check d-flex  align-items-center">
+        <div class="form-check form-check-products">
+            <input type="checkbox" class="form-check-input" id="checkbox-all">
+            <label class="form-check-label" for="checkbox-all">Chọn tất cả</label>
+        </div>
+        <select name="action" class="form-control form-control-sm checkbox-select-all-option" required>
+            <option value=""> --Hành động-- </option>
+            <option value="delete">Xóa</option>
         </select>
+        <button type="submit" class="btn btn-sm btn-primary checkAll-submit-btn" disabled>Thực hiện</button>
     </div>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Tên sản phẩm</th>
-                <th scope="col">Giá</th>
-                <th scope="col" colspan="2">Thời gian tạo</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-            <tr>
-                <th scope="row">{{sum @index 1}}</th>
-                <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.createdAt}}</td>
-                <td>
-                    <a href="/products/{{this._id}}/edit" class="btn btn-link">Sửa</a>
-                    <!-- Button trigger modal -->
-                    <a href="" class="btn btn-link" data-toggle="modal" data-target="#deleteProductModal"
-                        data-id="{{this._id}}">Xóa</a>
-                </td>
-            </tr>
-            {{else}}
-            <tr>
-                <td colspan="5" class="text-center">
-                    Bạn chưa đăng sản phẩm nào.
-                    <a href="/products/create">Đăng sản phẩm</a>
-                </td>
-            </tr>
-            {{/each}}
 
-        </tbody>
-    </table>
+    <div class="mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <td></td>
+                    <th scope="col">#</th>
+                    <th scope="col">Tên sản phẩm</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col" colspan="2">Thời gian tạo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each products}}
+                <tr>
+                    <td>
+                        <div class="form-check form-check-products">
+                            <input type="checkbox" class="form-check-input checkbox-item" name="productIds[]"
+                                value="{{this._id}}">
+                        </div>
+                    </td>
+                    <td scope="row">{{sum @index 1}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.price}}</td>
+                    <td>{{this.createdAt}}</td>
+                    <td>
+                        <a href="/products/{{this._id}}/edit" class="btn btn-link">Sửa</a>
+                        <!-- Button trigger modal -->
+                        <a href="" class="btn btn-link" data-toggle="modal" data-target="#deleteProductModal"
+                            data-id="{{this._id}}">Xóa</a>
+                    </td>
+                </tr>
+                {{else}}
+                <tr>
+                    <td colspan="5" class="text-center">
+                        Bạn chưa đăng sản phẩm nào.
+                        <a href="/products/create">Đăng sản phẩm</a>
+                    </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="deleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -75,7 +82,7 @@
             </div>
         </div>
     </div>
-</div>
+</form>
 
 
 {{!-- Hidden delete form --}}
@@ -87,6 +94,11 @@
         let productId;
         let deleteProductBtn = document.getElementById('btn-delete-product');
         let deleteProductForm = document.forms['delete-product-form'];
+        let checkboxAll = $('#checkbox-all');
+        let checkboxItem = $('.checkbox-item');
+        let checkAllSubmitBtn = $('.checkAll-submit-btn');
+        let containerForm = $('form[name="container-form"]');
+
 
         //when the confirm dialog is clicked
         $('#deleteProductModal').on('show.bs.modal', function (event) {
@@ -94,12 +106,43 @@
             productId = button.data('id');
         });
 
-
         // when the delete product button is clicked
         deleteProductBtn.onclick = function () {
             deleteProductForm.action = '/products/' + productId + '?_method=DELETE';
             deleteProductForm.submit();
+        };
+
+        //when checkbox all is clicked
+        checkboxAll.change(function () {
+            let isChecked = $(this).prop('checked');
+            checkboxItem.prop('checked', isChecked);
+            rerenderCheckAllSubmitBtn();
+        });
+
+        // when checkbox item is clicked
+        checkboxItem.change(function () {
+            let countCheckedItem = checkboxItem.length === $('input[name="productIds[]"]:checked').length;
+            checkboxAll.prop('checked', countCheckedItem);
+            rerenderCheckAllSubmitBtn();
+        });
+
+        //Re-render Check All Submit Button
+        function rerenderCheckAllSubmitBtn() {
+            let countChecked = $('input[name="productIds[]"]:checked').length
+            if (countChecked > 0) {
+                checkAllSubmitBtn.attr('disabled', false);
+            } else {
+                checkAllSubmitBtn.attr('disabled', true);
+            }
         }
+
+        //When check all submit btn is clicked
+        containerForm.on('submit', function (event) {
+            let isSubmittable = $(checkAllSubmitBtn).hasClass('disabled');
+            if (isSubmittable === true) {
+                event.preventDefault();
+            }
+        })
 
     })
 </script>
