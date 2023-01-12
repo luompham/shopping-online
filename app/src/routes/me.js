@@ -5,7 +5,8 @@ const meController = require('../app/controllers/MeController');
 
 
 
-router.get('/products', meController.show);
+
+router.get('/stored/products', meController.storedProducts);
 router.get('/trash/products', meController.trash);
 
 

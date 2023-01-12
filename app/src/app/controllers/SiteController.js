@@ -19,35 +19,10 @@ class SiteController {
         res.render('search');
     };
 
-    //[GET]/:id
-    show(req, res) {
-        let id = req.params.id;
-        ProductsModel.findOne({ _id: id }).lean()
-            .then((products) => {
-                res.render('buy-products', { products });
-            })
-            .catch((err) => {
-                res.status(500).send(err)
-            });
-
-    };
 
 
-    //[GET]/create
-    create(req, res) {
-        res.render('create');
-    };
 
-    //[POST]/create
-    store(req, res, next) {
-        console.log(req.body)
-        const product = new ProductsModel(req.body)
-        product.save()
-            .then(() => {
-                res.redirect('/me/products');
-            })
-            .catch(next);
-    };
+
 
 };
 

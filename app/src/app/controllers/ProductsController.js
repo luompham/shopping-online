@@ -2,6 +2,34 @@ const mongoose = require('mongoose');
 const ProductsModel = require('../models/products');
 
 class ProductsController {
+
+    //[GET]/create
+    create(req, res) {
+        res.render('products/create');
+    };
+
+    //[POST]/store
+    store(req, res, next) {
+        const product = new ProductsModel(req.body)
+        product.save()
+            .then(() => {
+                res.redirect('/me/stored/products');
+            })
+            .catch(next);
+    };
+
+    //[GET]/products/:id
+    show(req, res, next) {
+        let id = req.params.id;
+        ProductsModel.findOne({ _id: id }).lean()
+            .then((products) => {
+                res.render('products/show', { products });
+            })
+            .catch(next);
+
+    };
+
+
     //[GET]/products/:id/edit
     edit(req, res, next) {
         let id = req.params.id;
