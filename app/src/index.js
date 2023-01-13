@@ -7,6 +7,7 @@ const { engine } = require('express-handlebars');
 const path = require('path');
 const route = require('./routes');
 const db = require('./config/db');
+const sortMiddleware = require('./app/middlewares/SortMiddleware');
 
 
 //import { engine } from 'express-handlebars';
@@ -38,9 +39,12 @@ app.engine('.hbs',
 app.set('view engine', '.hbs');
 app.set('views', './app/src/resources/views');
 
+//Custom middleware
+app.use(sortMiddleware);
 
 //route init
 route(app);
+
 
 //connect to database
 db.connect();

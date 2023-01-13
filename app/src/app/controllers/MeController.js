@@ -4,6 +4,14 @@ const ProductsModel = require('../models/products');
 class MeController {
     //[GET]/me/stored/products
     storedProducts(req, res, next) {
+
+        // let productQuery = ProductsModel.find({})
+        // if (req.query.hasOwnProperty('_sort')) {
+        //     productQuery = productQuery.sort({
+        //         [req.query.column]: req.query.type,
+        //     })
+        // }
+
         let findProducts = ProductsModel.find({}).lean();
         let countDeleted = ProductsModel.countDocumentsDeleted().lean();
         let countProducts = ProductsModel.countDocuments().lean();
