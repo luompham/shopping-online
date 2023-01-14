@@ -13,6 +13,7 @@ router.delete('/:id/force', productsController.forceDestroy);
 router.delete('/:id', productsController.destroy);
 router.patch('/:id/restore', productsController.restore);
 router.post('/handle-form-actions', productsController.handleFormActions);
+router.post('/trash/handle-form-actions', productsController.trashHandleFormActions);
 router.get('/:id', productsController.show);
 
 

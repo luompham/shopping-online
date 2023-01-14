@@ -94,6 +94,26 @@ class ProductsController {
         };
     }
 
+    //[POST]/products/trash/handle-form-actions
+    trashHandleFormActions(req, res, next) {
+        let id = req.body.productIds;
+        switch (req.body.action) {
+            case 'delete':
+                ProductsModel.deleteMany({ _id: id }).lean()
+                    .then(() => { res.redirect('back') })
+                    .catch(next);
+                break;
+
+            case 'restore':
+                ProductsModel.restore({ _id: id }).lean()
+                    .then(() => { res.redirect('back') })
+                    .catch(next);
+                break;
+
+            default:
+                res.json('Action is invalid');
+        };
+    }
 
 };
 

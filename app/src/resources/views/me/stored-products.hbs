@@ -3,6 +3,7 @@
         <h3>Danh sách sản phẩm ({{productsQty}})</h3>
         <a href="/me/trash/products">Thùng rác ({{deletedQty}})</a>
     </div>
+    {{!-- Select all button --}}
     <div class="mt-4 form-check d-flex  align-items-center">
         <div class="form-check form-check-products">
             <input type="checkbox" class="form-check-input" id="checkbox-all">
@@ -24,8 +25,12 @@
                     <th scope="col">Tên sản phẩm
                         {{{sortable 'name' _sort}}}
                     </th>
-                    <th scope="col">Giá</th>
-                    <th scope="col" colspan="2">Thời gian tạo</th>
+                    <th scope="col">Giá
+                        {{{sortable 'price' _sort}}}
+                    </th>
+                    <th scope="col" colspan="2">Thời gian tạo
+                        {{{sortable 'createdAt' _sort}}}
+                    </th>
                 </tr>
             </thead>
             <tbody>
