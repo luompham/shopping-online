@@ -22,9 +22,7 @@
                     <td></td>
                     <th scope="col">#</th>
                     <th scope="col">Tên sản phẩm
-                        <a href="?_sort&column=name&type=desc">
-                            <i class="bi bi-chevron-expand"></i>
-                        </a>
+                        {{{sortable 'name' _sort}}}
                     </th>
                     <th scope="col">Giá</th>
                     <th scope="col" colspan="2">Thời gian tạo</th>
@@ -61,8 +59,6 @@
 
             </tbody>
         </table>
-
-        {{_sort.type}}
     </div>
 
 
