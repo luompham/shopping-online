@@ -8,6 +8,8 @@ const path = require('path');
 const route = require('./routes');
 const db = require('./config/db');
 const sortMiddleware = require('./app/middlewares/SortMiddleware');
+const cookieParser = require('cookie-parser');
+
 
 
 //import { engine } from 'express-handlebars';
@@ -15,6 +17,9 @@ const sortMiddleware = require('./app/middlewares/SortMiddleware');
 
 
 //app.use(morgan('combined'));
+
+//Cookie parser
+app.use(cookieParser());
 
 //Override method
 app.use(methodOverride('_method'));
